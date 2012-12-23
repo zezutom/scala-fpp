@@ -7,18 +7,19 @@ object Pascal {
 
   def printTriangle(rows: Int) {
     if (rows < 1 || rows > 25) {
-      println("Please enter a number between 0 and 25.");
+      println("Please enter a number between 1 and 25.");
     } else {
-      println("Pascal's Triangle");
+      println("Pascal's Triangle\n")
       val START: Long = System.nanoTime();
       val SPACE_FACTOR: Int = 4;
+      val MAX_SPACE: Int = SPACE_FACTOR * 2;
       
       for (row <- 0 to rows) {
         if (row < rows)
           print(("%" + (rows - row) * SPACE_FACTOR + "s").format(""));
-        var maxSpace: Int = SPACE_FACTOR * 2;
+        
         for (col <- 0 to row)
-          print(("%" + maxSpace + "d").format(pascal(col, row)));
+          print(("%" + MAX_SPACE + "d").format(pascal(col, row)));
         println()
       }
       val STOP: Long = System.nanoTime();

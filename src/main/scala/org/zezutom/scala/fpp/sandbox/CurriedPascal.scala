@@ -2,26 +2,31 @@ package org.zezutom.scala.fpp.sandbox
 
 object CurriedPascal {
 
-  def combine(calc: (Int, Int) => Int, spaceFmt: Int => String, valueFmt: Int => String)(rows: Int) {
-    def handleRow(row: Int) {
+  // A general way of how the triangle is printed
+  def printTriangle 
+    (spaceFmt: Int => String = (x:Int) => "")
+    (valueFmt: Int => String = (x:Int) => x + " ")
+    (rows: Int) = {
+    def iterate(row: Int) {
       if (row <= rows) {
         if (row < rows) print(spaceFmt(rows - row))
-        for (col <- 0 to row) print(valueFmt(calc(col, row)))
+        for (col <- 0 to row) print(valueFmt(pascal(col, row)))
         println()
-        handleRow(row + 1)
+        iterate(row + 1)
       }
     }
-    handleRow(0)
+    iterate(0)
   }
-
-  def calculate(c: Int, r: Int): Int =
+  
+  // The default (unformatted) print
+  def defaultPrint = printTriangle()()_
+  
+  // A pretty-printed triangle 
+  def prettyPrint = printTriangle(gap => ("%" + (gap * 4) + "s").format(""))(value => ("%8d").format(value))_
+  
+  def pascal(c: Int, r: Int): Int =
     if (c == 0 || r == 0 || c == r) 1
-    else calculate(c - 1, r - 1) + calculate(c, r - 1)
-
-  def pascal(rows: Int) {
-    if (rows < 1 || rows > 25) println("Please enter a number between 1 and 25.")  
-    else combine(calculate, gap => ("%" + (gap * 4) + "s").format(""), value => ("%8d").format(value))(rows)
-  }
+    else pascal(c - 1, r - 1) + pascal(c, r - 1)
 
   def measure(f: => Unit) {
     val START: Long = System.nanoTime(); 
@@ -35,7 +40,7 @@ object CurriedPascal {
   }
   
   def main(args: Array[String]) {
-    heading(measure(pascal(10)))
+    heading(measure(prettyPrint(10)))
   }
 
 }

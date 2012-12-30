@@ -17,14 +17,21 @@ object CurriedPascal {
     }
     iterate(0)
   }
-  
+    
   // The default (unformatted) print
   def defaultPrint = printTriangle()()_
   
   // A pretty-printed triangle 
-  def prettyPrint = printTriangle(gap => ("%" + (gap * 4) + "s").format(""))(value => ("%8d").format(value))_
+  def prettyPrint = printTriangle(prettySpace)(prettyValue)_
   
-  def pascal(c: Int, r: Int): Int =
+  
+  // Aligns the space around values 
+  def prettySpace(x: Int) = ("%" + (x * 4) + "s").format("") 
+  
+  // Ensures the value has enough space
+  def prettyValue(x: Int) = ("%8d").format(x)
+    
+  def pascal(c: Int, r: Int): Int = 
     if (c == 0 || r == 0 || c == r) 1
     else pascal(c - 1, r - 1) + pascal(c, r - 1)
 
@@ -40,7 +47,9 @@ object CurriedPascal {
   }
   
   def main(args: Array[String]) {
-    heading(measure(prettyPrint(10)))
+//    heading(measure(prettyPrint(10)))
+    prettyPrint(10)
+    defaultPrint(15)
   }
 
 }

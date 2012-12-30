@@ -47,9 +47,7 @@ object CurriedPascal {
   }
   
   def main(args: Array[String]) {
-//    heading(measure(prettyPrint(10)))
-    prettyPrint(10)
-    defaultPrint(15)
+    heading(measure(prettyPrint(10)))
   }
 
 }

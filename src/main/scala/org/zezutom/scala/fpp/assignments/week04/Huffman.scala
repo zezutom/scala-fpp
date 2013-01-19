@@ -73,26 +73,20 @@ object Huffman {
    *       println("character is: "+ theChar)
    *       println("integer is  : "+ theInt)
    *   }
-   */
+   */  
   def times(chars: List[Char]): List[(Char, Int)] = {
-    var pairs: ListBuffer[(Char, Int)] = ListBuffer()
-    
-    if (chars.isEmpty) pairs.toList
-    
-    for (char <- chars) {
-      
-        if (pairs.isEmpty) pairs += ((char, 1))
-        else {
-          var addNew: Boolean = true
-          for (i <- pairs.indices if (pairs(i)._1 == char)) {
-            pairs.update(i, (char, pairs(i)._2 + 1))
-            addNew = false
-          }
-          
-          if (addNew) pairs + ((char, 1))
-        }
-    }
-    pairs.toList
+	def iter(chars: List[Char], pairs: List[(Char, Int)]): List[(Char, Int)] = {
+	  if (chars.isEmpty) pairs
+	  else {
+	    val head = chars.head	    
+	    val updatedPairs: ListBuffer[(Char, Int)] = ListBuffer()
+	    for (pair <- pairs) pair match {
+	      case(theChar, theInt) => updatedPairs += (if (theChar == head)  (theChar, theInt + 1) else pair) 
+	    }
+	    iter(chars.tail, if (updatedPairs == pairs) pairs ::: List((head, 1)) else updatedPairs.toList)
+	  }
+	}
+	iter(chars, List())
   }
   
   /**

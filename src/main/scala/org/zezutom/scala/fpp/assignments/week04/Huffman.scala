@@ -104,7 +104,7 @@ object Huffman {
       else if (leafs.isEmpty) iter(freqs.tail, List(toLeaf(freqs.head)))
       else {
         val newLeaf = toLeaf(freqs.head)
-        iter(freqs.tail, if (newLeaf.weight < leafs.head.weight)  List(newLeaf) ::: leafs else leafs ::: List(newLeaf)) 
+        iter(freqs.tail, if (newLeaf.weight < leafs.head.weight) newLeaf :: leafs else leafs ::: List(newLeaf)) 
       }
     }
     iter(freqs, List())
@@ -134,7 +134,7 @@ object Huffman {
           if (trees.isEmpty) orderedTrees
     	  else {
     	    val head = trees.head
-    	    orderTreeList(trees.tail, if (orderedTrees.isEmpty || weight(head) < weight(orderedTrees.head)) List(head) ::: orderedTrees else orderedTrees ::: List(head))
+    	    orderTreeList(trees.tail, if (orderedTrees.isEmpty || weight(head) < weight(orderedTrees.head)) head :: orderedTrees else orderedTrees ::: List(head))
     	  }      	            
         }
         orderTreeList(trees, List())

@@ -30,7 +30,7 @@ class HuffmanSuite extends FunSuite {
     }
   }
   test("string2chars(\"hello, world\")") {
-    assert(string2Chars("hello, world") === List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'))
+    assert(string2Chars("hello, world") === "hello, world".toList)
   }
 
   test("makeOrderedLeafList for some frequency table") {
@@ -61,7 +61,7 @@ class HuffmanSuite extends FunSuite {
     }
   }
   
-  test("decode the secret sentence") {
-    assert(decodedSecret === List('h', 'u', 'f', 'f', 'm', 'a', 'n', 'e', 's', 't', 'c', 'o', 'o', 'l'))
+  test("decode the secret sentence") {    
+    assert(decodedSecret === "huffmanestcool".toList)
   }
 }

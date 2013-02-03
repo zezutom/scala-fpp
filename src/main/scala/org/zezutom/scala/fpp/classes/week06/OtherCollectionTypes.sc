@@ -36,5 +36,8 @@ object OtherCollectionTypes {
 	
 	isPrime(5)                                //> res10: Boolean = true
 	
+	val abba = List(('a', 2), ('a', 1), ('b', 2), ('b', 1))
+                                                  //> abba  : List[(Char, Int)] = List((a,2), (a,1), (b,2), (b,1))
+	abba ::: List(())                         //> res11: List[Any] = List((a,2), (a,1), (b,2), (b,1), ())
 	
 }

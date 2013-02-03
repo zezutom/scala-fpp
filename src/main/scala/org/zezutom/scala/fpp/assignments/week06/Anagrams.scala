@@ -34,11 +34,12 @@ object Anagrams {
    *  same character, and are represented as a lowercase character in the occurrence list.
    */
   def wordOccurrences(w: Word): Occurrences = 
-    w.toLowerCase.groupBy(identity).toList.sortBy(_._1).map(_._2) flatMap (s => s zip List(s.length()))  
+    w.toLowerCase.groupBy(identity).toList.sortBy(_._1).map(_._2).flatMap(s => s zip List(s.length()))  
 
   /** Converts a sentence into its character occurrence list. */
-  def sentenceOccurrences(s: Sentence): Occurrences = ???
-
+  def sentenceOccurrences(s: Sentence): Occurrences = 
+    s.tail.foldLeft(wordOccurrences(s.head)) {(o, w) => o ::: wordOccurrences(w)}
+    
   /** The `dictionaryByOccurrences` is a `Map` from different occurrences to a sequence of all
    *  the words that have that occurrence count.
    *  This map serves as an easy way to obtain all the anagrams of a word given its occurrence list.
@@ -51,13 +52,15 @@ object Anagrams {
    *
    *  This means that the `dictionaryByOccurrences` map will contain an entry:
    *
-   *    List(('a', 1), ('e', 1), ('t', 1)) -> Seq("ate", "eat", "tea")
+   *    List(('a', 1), ('e', 1), ('t', 1)) -> Set("ate", "eat", "tea")
    *
    */
-  lazy val dictionaryByOccurrences: Map[Occurrences, List[Word]] = ???
+  lazy val dictionaryByOccurrences: Map[Occurrences, List[Word]] = 
+    dictionary.groupBy(w => wordOccurrences(w))
 
   /** Returns all the anagrams of a given word. */
-  def wordAnagrams(word: Word): List[Word] = ???
+  def wordAnagrams(word: Word): List[Word] = 
+    dictionaryByOccurrences.getOrElse(wordOccurrences(word), List(word))
 
   /** Returns the list of all subsets of the occurrence list.
    *  This includes the occurrence itself, i.e. `List(('k', 1), ('o', 1))`
@@ -82,6 +85,7 @@ object Anagrams {
    *  in the example above could have been displayed in some other order.
    */
   def combinations(occurrences: Occurrences): List[Occurrences] = ???
+        
 
   /** Subtracts occurrence list `y` from occurrence list `x`.
    * 
